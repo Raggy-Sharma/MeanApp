@@ -1,0 +1,165 @@
+--->    npm init
+--->    install express
+--->    set up index.js
+--->    set up express server
+--->    install mongoose dependecy
+--->    connect to mongoose in index.js
+--->    creaate config directory
+--->    config/database.js
+        --->    export uri and secret
+
+--->    create a new angular app
+--->    ng build
+        --->    creates a dist folder
+
+--->    route to the src/index.html file in client folder
+
+
+--->    ******     !!! ng build only for deployment !!!    *****
+
+--->    set up client routes
+
+--->    create a models folder for the db schemas
+--->    set up db(mongoose) schema 
+
+---------------****** SET UP BACKEND FOR REGISTRATION ******---------------
+
+--->    set up routes for the rest api
+--->    add router module to the index.js
+--->    import the authentication api(in this project)/api module in index.js
+--->    set middleware for authentication api(in this project)/api
+
+
+--->    add code to post the data to the server
+--->    install body-parser package
+--->    add required dependencies
+
+--->    install bcrypt-nodejs for password encryption/decryption
+
+--->    write the encryption decryption logic
+
+--->    add validations to the REGISTRATION data (quite simple, refer to user.js and authentication.js)
+
+--->    CREATING REACTIVE FORMS FOR REGISTRATION PAGE
+
+--->    import ReactiveFormsModule from @angular/FORMS in app.module
+
+
+--->    add reactive validations for each field
+
+---------------------------------------------------------------
+*** SETTING UP express  ***
+
+
+******  const express = require('express'),
+    app = express();
+
+    app.get('/', (req, res) => {
+        res.send('Hello world');
+        
+    });
+
+    app.listen(8080, () => {
+        console.log('Listening on port 8080');
+    });
+******
+*** --END-SETTING UP express-- ***
+
+
+*** SETTING UP mongoose  ***
+
+******  const mongoose = require('mongoose');
+        mongoose.Promise = global.Promise;
+        mongoose.connect(/*uri*/);
+
+*****
+*** ----END-SETTING UP mongoose---- ***
+
+
+*** SETTING UP CLIENT ***
+
+******  const path = require('path');
+        app.use(express.static(__dirname + '/client/dist'));
+        app.get('/', (req, res) => {
+            path.join(__dirname + '/client/dist/index.html');
+        });
+        
+******
+*** ----END-SETTING UP CLIENT---- ***
+
+
+*** SETTING UP SCHEMA ***
+
+******* const mongoose = require('mongoose');
+        mongoose.Promise = global.Promise;
+        const Schema = mongoose.Schema;
+        const SchemaName = new Schema({
+            // Define schema
+        });
+
+        module.exports = mongoose.model('//modelName', //SchemaName);
+******
+
+*** ----END-SETTING UP SCHEMA---- ***
+
+
+*** ADDING TO MIDDLEWARE ***
+
+******  const router = express.Router();
+        const authentication = require('//file path');
+
+        app.use('authentication', authentication);
+******
+
+*** ----END-ADDING TO MIDDLEWARE---- ***
+
+
+*** POST USER DETAILS TO SERVER/DB ***
+
+******  import the user(here in the proj)/model to POST
+        module.exports = (router) => {
+                ruoter.post((req, res) => {
+                        //check for required conditions 
+                        //using req.body
+                        //save the data using instanceName.save() method
+                });
+        };
+******
+
+*** ----END-POST USER DETAILS TO SERVER/DB---- ***
+
+
+*** MIDDLEWARE FOR SCHEMA **
+//      Need to write a middleware before the schema is created
+//      This is to encrypt the password before creating the schema for the user
+
+        *** ENCRYPTING PASSWORD ***
+        ******  const bcrypt = require('bcrypt-nodejs');
+                userSchema.pre('save', function(next){
+                        if(!this.isModified)    // dont have to encrypt if the password is not isModified       
+                                                // in other words, encrypt everytime a new password is created or isModified
+                                return next();
+                        bcrypt.hash(this.passWord, null, null, (err, hash) => {
+                                if(err)
+                                        return next();
+                                this.passWord = hassh;
+                                next();
+                        });
+                });
+        ******
+        *** ----END-ENCRYPTING PASSWORD---- ***
+
+        *** DECRYPTING PASSWORD ***
+        ******  userSchema.methods.comparePassword = (passWord) => {
+                return bcrypt.compareSync(passWord, this.password);
+        };
+        ******
+        *** ----END-DECRYPTING PASSWORD---- ***
+
+        
+*** ----END-MIDDLEWARE FOR SCHEMA---- ***
+
+
+        
+ouvvz663b4wkjmrn@ethereal.email
+KqZSxXjg2JpwcdFdK4
